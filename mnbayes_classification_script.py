@@ -3,10 +3,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
+from sklearn.metrics import plot_confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+np.set_printoptions(threshold=10_000)
 
-df = pd.read_csv('r"C:\Users\KSpicer\Desktop\victorian_era_authorship_attribution_project\dataset\Gungor_2018_VictorianAuthorAttribution_data-train.csv"', encoding='latin-1')
+df = pd.read_csv(r"C:\Users\KSpicer\Desktop\victorian_era_authorship_attribution_project\dataset\Gungor_2018_VictorianAuthorAttribution_data-train.csv", encoding='latin-1')
 
 print(df.dtypes)
 
@@ -44,15 +47,24 @@ print(metrics.confusion_matrix(y_test, y_pred_class))
 
 y_pred_prob = nb.predict_proba(X_test_dtm)[:, 1]
 
+X_train_tokens = vect.get_feature_names()
+print(len(X_train_tokens))
+print(nb.feature_count_)
+print(nb.feature_count_.shape)
 
-from sklearn.linear_model import LogisticRegression
+author_16_count = nb.feature_count_[16, :]
+print(author_16_count)
 
-logreg = LogisticRegression()
-logreg.fit(X_train_dtm, y_train)
+author_25_count = nb.feature_count_[25, :]
 
-y_pred_class = logreg.predict(X_test_dtm)
-y_pred_prob = logreg.predict_proba(X_test_dtm)[:, 1]
-print(metrics.accuracy_score(y_test, y_pred_class))
+tokens = pd.DataFrame({'token': X_train_tokens, '16': author_16_count, '25': author_25_count}).set_index('token')
+print(tokens.head())
+
+print(tokens.sample(10, random_state=6))
+print(nb.class_count_)
+
+plot_confusion_matrix(nb, y_test, y_pred_class)
+plt.show()
 
 
 
