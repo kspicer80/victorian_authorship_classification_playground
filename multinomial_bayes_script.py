@@ -20,7 +20,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 #
 #print("Accuracy: ", accuracy_score(y, yhat))
 
-
 train = pd.read_csv(r'data\Gungor_2018_VictorianAuthorAttribution_data-train.csv', encoding='latin-1')
 test = pd.read_csv(r'data\Gungor_2018_VictorianAuthorAttribution_data.csv', encoding='latin-1')
 

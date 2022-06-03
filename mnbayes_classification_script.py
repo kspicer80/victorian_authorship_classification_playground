@@ -6,8 +6,7 @@ from sklearn import metrics
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
-df = pd.read_csv('/Users/spicy.kev/Desktop/victorian_authorship/Gungor_2018_VictorianAuthorAttribution_data-train.csv', encoding='latin-1')
+df = pd.read_csv('r"C:\Users\KSpicer\Desktop\victorian_era_authorship_attribution_project\dataset\Gungor_2018_VictorianAuthorAttribution_data-train.csv"', encoding='latin-1')
 
 print(df.dtypes)
 
