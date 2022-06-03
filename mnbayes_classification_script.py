@@ -6,8 +6,6 @@ from sklearn import metrics
 from sklearn.metrics import plot_confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
-np.set_printoptions(threshold=10_000)
 
 df = pd.read_csv(r"C:\Users\KSpicer\Desktop\victorian_era_authorship_attribution_project\dataset\Gungor_2018_VictorianAuthorAttribution_data-train.csv", encoding='latin-1')
 
@@ -62,10 +60,3 @@ print(tokens.head())
 
 print(tokens.sample(10, random_state=6))
 print(nb.class_count_)
-
-plot_confusion_matrix(nb, y_test, y_pred_class)
-plt.show()
-
-
-
-
