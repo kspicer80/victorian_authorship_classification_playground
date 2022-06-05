@@ -12,9 +12,6 @@ from sklearn.metrics import classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-sklearn_version = sklearn.__version__
-print(sklearn_version)
-
 df = pd.read_csv("/Users/spicy.kev/Desktop/victorian_authorship/victorian_training_data.csv", encoding='latin-1')
 
 #print(df.dtypes)
@@ -46,11 +43,14 @@ y_pred_class = nb.predict(X_test_dtm)
 #print(y_test.value_counts())
 null_accuracy = y_test.value_counts().head(1)/len(y_test)
 #print('Null accuracy: ', null_accuracy)
-print('The accuracy_score is: ', accuracy_score(y_test, y_pred_class, normalize=True))
+print('The accuracy_score is: ', accuracy_score(y_test, y_pred_class))
 
 confusion_matrix = metrics.confusion_matrix(y_test, y_pred_class)
-disp = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix)
-disp.plot()
+#disp = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix)
+#disp.plot()
+#plt.show()
+
+ConfusionMatrixDisplay.from_predictions(y_test, y_pred_class)
 plt.show()
 #sns.heatmap(confusion_matrix, annot=True)
 #ConfusionMatrixDisplay.from_predictions(nb, y_test, y_pred_class)
