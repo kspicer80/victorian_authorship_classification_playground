@@ -6,8 +6,21 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 import matplotlib.pyplot as plt
+import urllib.request
+from io import StringIO, BytesIO, TextIOWrapper
+from zipfile import ZipFile
 
-file_path = '/Users/spicy.kev/Desktop/victorian_authorship/victorian_training_data.csv'
+uci_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00454/"
+victorian_authorship_file = "dataset.zip"
+
+response = urllib.request.urlopen(uci_url + urllib.request.quote(victorian_authorship_file))
+
+zipfile = ZipFile(BytesIO(response.read()))
+
+data = TextIOWrapper(zipfile.open('dataset/Gungor_2018_VictorianAuthorAttribution_data-train.csv'))
+
+df = pd.read_csv(data)
+print(df.head(25))
 
 df = pd.read_csv(file_path, encoding='latin-1')
 
