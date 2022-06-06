@@ -88,8 +88,8 @@ y = df.author
 x_train, x_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
 vectorizer = CountVectorizer()
-vector.fit(x_train)
-X_train_dtm = vector.transform(x_test)
+vectorizer.fit(x_train)
+X_train_dtm = vectorizer.transform(x_test)
 
 learning_rate = 0.003
 epochs = 50
