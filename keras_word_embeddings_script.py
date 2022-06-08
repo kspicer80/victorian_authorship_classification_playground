@@ -22,16 +22,20 @@ from tensorflow.python.keras.layers import SeparableConv1D
 from tensorflow.python.keras.layers import MaxPooling1D
 from tensorflow.python.keras.layers import GlobalAveragePooling1D
 
-uci_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00454/"
-victorian_authorship_file = "dataset.zip"
+#uci_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00454/"
+#victorian_authorship_file = "dataset.zip"
 
-response = urllib.request.urlopen(uci_url + urllib.request.quote(victorian_authorship_file))
+#response = urllib.request.urlopen(uci_url + urllib.request.quote(victorian_authorship_file))
 
-zipfile = ZipFile(BytesIO(response.read()))
+#zipfile = ZipFile(BytesIO(response.read()))
 
-data = TextIOWrapper(zipfile.open('dataset/Gungor_2018_VictorianAuthorAttribution_data-train.csv'))
+#data = TextIOWrapper(zipfile.open('dataset/Gungor_2018_VictorianAuthorAttribution_data-train.csv'))
 
-#df = pd.read_csv(data)
+hard_drive_file = '/Users/spicy.kev/Desktop/victorian_authorship/victorian_training_data.csv'
+#df = pd.read_csv(hard_drive_file, encoding='latin-1')
+
+testing_data_file = '/Users/spicy.kev/Desktop/victorian_authorship/victorian_testing_data.csv'
+#print(df.head())
 
 NGRAM_RANGE = 2
 TOP_K = 20000
@@ -42,17 +46,58 @@ MIN_DOCUMENT_FREQUENCY = 2
 
 MAX_SEQUENCE_LENGTH = 1000
 
-def load_and_shuffle_data(dataframe, cols, seed, separator=',', header=0):
+def load_and_shuffle_data(data, cols, seed=123, separator=',', header=0):
     np.random.seed(seed)
-    data = pd.read_csv(dataframe, usecols=cols, sep=separator, header=header)
-    return data.reindex(np.random.permutation(data.index))
+    df = pd.read_csv(data, encoding='latin-1', usecols=cols, sep=separator, header=header)
+    return df.reindex(np.random.permutation(df.index))
 
 columns = (0, 1)
 seed = 123
 
-load_and_shuffle_data(data, columns, seed)
+def load_victorian_dataset(datafile, seed=123, header=0):
+    train_columns = (0, 1)
+    test_columns = (0)
+    train_data = load_and_shuffle_data(datafile, train_columns, seed)
+    test_data = pd.read_csv(testing_data_file, encoding='latin-1')
+    
+    train_labels = np.array(train_data.iloc[:, 1])
+    test_labels = np.array(test_data.iloc[:, 0])
+    
+    train_texts = []
+    for index, row in train_data.iterrows():
+        train_texts.append(train_data[row])
+    test_texts = []
+    for index, row, in test_data.iterrows():
+        test_texts.append(test_data[row])
+    
+    return ((train_texts, train_labels), (test_texts, test_labels_))
+    
+#loaded_data = load_and_shuffle_data(hard_drive_file, columns, seed)
+
+loaded_victorian_dataset = load_victorian_dataset(hard_drive_file)
 
 print("Properly loaded the dataset successfully from external URL and into the script ...")
+print(loaded_data.shape)
+print(loaded_victorian_dataset.shape)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def _split_training_and_validation_sets(texts, labels, validation_split):
     """Splits the texts and labels into training and validation sets.
@@ -63,16 +108,19 @@ def _split_training_and_validation_sets(texts, labels, validation_split):
     # Returns
         A tuple of training and validation data.
     """
+    columns = (0, 1)
+    data = load_and_shuffle_data
     texts = list(df['text'])
     labels = np.array(data['author'])
     num_training_samples = int((1 - validation_split) * len(texts))
     return ((texts[:num_training_samples], labels[:num_training_samples]),
             (texts[num_training_samples:], labels[num_training_samples:]))
 
-training_data, validation_data = _split_training_and_validation_sets(df['text'], df['author'], 0.2)
+#training_data, validation_data = _split_training_and_validation_sets(df['text'], df['author'], 0.2)
 
-print("Successfully split data into training & validation sets ...")
+#print("Successfully split data into training & validation sets ...")
 
+'''
 def ngram_vectorizer(train_texts, train_labels, val_texts):
     kwargs = {
                 'ngram_range': NGRAM_RANGE,
@@ -95,6 +143,7 @@ def ngram_vectorizer(train_texts, train_labels, val_texts):
 
 X_train, X_labels, X_val = ngram_vectorizer(training_data, validation_data)
 print("Successfully vectorized the training and validation sets ...")
+
 
 def sequence_vectorize(train_texts, val_texts):
     tokenizer = text.Tokenizer(num_words=TOP_K)
@@ -259,5 +308,6 @@ def train_ngram_model(data,
     # Save model.
     model.save('IMDb_mlp_model.h5')
     return history['val_acc'][-1], history['val_loss'][-1]
+'''
     
 
