@@ -10,11 +10,10 @@ def load_and_shuffle_data(data_path, file_name, cols, seed, separator=',', heade
     
 def load_victorian_dataset(data_path, validation_split=0.2, seed=123):
     columns = (0, 1)
-    train_data = load_and_shuffle_data(data_path, columns, seed, header=0)
-    test_data = pd.read_csv(testing_data_file, encoding='latin-1')
+    train_data = load_and_shuffle_data(data_path, 'victorian_training_data.csv', columns, seed, header=0)
     
-    texts = list(data['text'])
-    labels = np.array(data['author'])
+    texts = list(train_data['text'])
+    labels = np.array(train_data['author'])
     return (split_training_and_validation_sets(texts, labels, validation_split))
     
 def split_training_and_validation_sets(texts, labels, validation_split):
@@ -34,3 +33,7 @@ data = load_and_shuffle_data('/Users/spicy.kev/Desktop/victorian_authorship', 'v
 
 print(data.shape)
 print(type(data))
+
+all_loaded_up = load_victorian_dataset('/Users/spicy.kev/Desktop/victorian_authorship')
+#print(all_loaded_up.shape)
+print(type(all_loaded_up))
