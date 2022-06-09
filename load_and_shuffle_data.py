@@ -22,7 +22,7 @@ def load_victorian_dataset(data_path, filename, cols, validation_split=0.2, seed
     texts = list(data['text'])
     labels = np.array(data['author'])
     #return texts, labels
-    return (split_training_and_validation_sets(texts, labels, validation_split='validation_split'))
+    return (split_training_and_validation_sets(texts, labels, validation_split=validation_split)) # for the longest time I had this as validation_split='validation_split' thus raising an error ...
 
 #print(len(test_texts))
 #print(len(test_labels))
@@ -38,8 +38,9 @@ def split_training_and_validation_sets(texts, labels, validation_split):
 #split_texts, split_labels = split_training_and_validation_sets(test_texts, test_labels, .2)
 #x, y = split_texts
 #print(len(y))
-#
-test_texts, test_labels = load_victorian_dataset(r'C:\Users\KSpicer\Documents\GitHub\victorian_authorship_classification_playground', 'training_data.csv', (0, 1), .2, 123)
+
+path = Path('/Users/spicy.kev/Desktop/victorian_authorship/victorian_training_data.csv')
+test_texts, test_labels = load_victorian_dataset('/Users/spicy.kev/Desktop/victorian_authorship', 'victorian_training_data.csv', (0, 1), .2, 123)
 
 #print('\n')
 #print(type(split_texts))
