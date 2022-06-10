@@ -29,7 +29,7 @@ def ngram_vectorizer(train_texts, train_labels, val_texts):
         X_train = selector.transform(X_train).astype('float32')
         X_val = selector.transform(X_val).astype('float32')
 
-        return X_train, X_val
+        return X_train.toarray(), X_val.toarray()
 
 def sequence_vectorizer(train_texts, val_texts):
         tokenizer = text.Tokenizer(num_words=TOP_K)

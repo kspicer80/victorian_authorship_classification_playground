@@ -15,18 +15,17 @@ def train_ngram_model(data,
                       dropout_rate=0.2):
     (train_texts, train_labels), (val_texts, val_labels) = data
 
-    missing_authors = [5, 7, 31, 47, 49]
-    num_classes = [x for x in range(1, 51) if x not in missing_authors]
     # Verify that validation labels are in the same range as training labels.
     #num_classes = explore_data.get_num_classes(train_labels) # This is the number of authors in the training_dataset
-    unexpected_labels = [v for v in val_labels if v not in num_classes]
-    if len(unexpected_labels):
-        raise ValueError('Unexpected label values found in the validation set:'
-                         ' {unexpected_labels}. Please make sure that the '
-                         'labels in the validation set are in the same range '
-                         'as training labels.'.format(
-                             unexpected_labels=unexpected_labels))
-
+    #num_classes = len(train_labels)
+    #unexpected_labels = [v for v in val_labels if v not in num_classes]
+    #if len(unexpected_labels):
+        #raise ValueError('Unexpected label values found in the validation set:'
+                        #' {unexpected_labels}. Please make sure that the '
+                        #'labels in the validation set are in the same range '
+                        #'as training labels.'.format(
+                        #unexpected_labels=unexpected_labels))
+    num_classes = 51
     # Vectorize texts.
     x_train, x_val = vectorize_data.ngram_vectorizer(
         train_texts, train_labels, val_texts)
@@ -67,9 +66,5 @@ def train_ngram_model(data,
             acc=history['val_acc'][-1], loss=history['val_loss'][-1]))
 
     # Save model.
-    model.save('IMDb_mlp_model.h5')
+    model.save('victorian_authorship_attribution_mlp_model.h5')
     return history['val_acc'][-1], history['val_loss'][-1]
-
-data = load_and_shuffle_data.load_victorian_dataset(r"C:\Users\KSpicer\Desktop\victorian_era_authorship_attribution_project\dataset", "training_data.csv", (0, 1), .2, 123)
-print("Successfully loaded everything!")
-train_ngram_model(data)
