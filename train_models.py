@@ -8,7 +8,7 @@ import explore_data
 
 def train_ngram_model(data,
                       learning_rate=1e-3,
-                      epochs=1000,
+                      epochs=50,
                       batch_size=128,
                       layers=2,
                       units=64,

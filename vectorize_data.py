@@ -1,7 +1,10 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.preprocessing import text
 import load_and_shuffle_data
+
 
 NGRAM_RANGE = (1, 2)
 TOP_K = 20000
