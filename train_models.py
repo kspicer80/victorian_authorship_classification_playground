@@ -5,28 +5,11 @@ import vectorize_data
 import build_model
 import load_and_shuffle_data
 import explore_data
-
-def plot_model_loss(model_name, string_1='loss', string_2='val_loss'):
-    plt.plot(model_name.history[string_1])
-    plt.plot(model_name.history[string_2])
-    plt.title('model loss')
-    plt.ylabel(string_1)
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
-
-def plot_model_accuracy(model_name, string_1='accuracy', string_2='val_accuracy'):
-    plt.plot(model_name.history[string_1])
-    plt.plot(model_name.history[string_2])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'val'], loc='lower right')
-    plt.show()
+import matplotlib.pyplot as plt
 
 def train_ngram_model(data,
-                      learning_rate=1e-3,
-                      epochs=50,
+                      learning_rate=0.007,
+                      epochs=25,
                       batch_size=128,
                       layers=2,
                       units=64,
@@ -78,11 +61,23 @@ def train_ngram_model(data,
             verbose=2,  # Logs once per epoch.
             batch_size=batch_size)
 
+    plt.title('Loss')
+    plt.plot(history.history['loss'], label='train')
+    plt.plot(history.history['val_loss'], label='test')
+    plt.legend()
+    plt.show()
+
+    plt.title('Accuracy')
+    plt.plot(history.history['acc'], label='train')
+    plt.plot(history.history['val_acc'], label='test')
+    plt.legend()
+    plt.show();
+
     # Print results.
     history = history.history
     print('Validation accuracy: {acc}, loss: {loss}'.format(
             acc=history['val_acc'][-1], loss=history['val_loss'][-1]))
-
+    
     # Save model.
     model.save('victorian_authorship_attribution_mlp_model.h5')
     return history['val_acc'][-1], history['val_loss'][-1]
